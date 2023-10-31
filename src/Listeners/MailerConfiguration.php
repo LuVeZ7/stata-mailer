@@ -2,11 +2,19 @@
 
 namespace AcquaintSofttech\StataMailer\Listeners;
 
-use Stillat\Proteus\Support\Facades\ConfigWriter;
+use AcquaintSofttech\StataMailer\Services\DotEnvService;
 use Illuminate\Support\Facades\Artisan;
+
 
 class MailerConfiguration
 {
+    protected $dotEnvService;
+
+    public function __construct(DotEnvService $dotEnv)
+    {
+        $this->dotEnvService = $dotEnv;
+    }
+
     public function handle($event)
     {
         $data = $event->data;
@@ -24,28 +32,43 @@ class MailerConfiguration
 
     public function smtpConfigSave($data)
     {
-        // Smtp Configuration set into mail.php 
-        ConfigWriter::edit('mail')->replace('default',$data['mailer'])->save();
 
-        ConfigWriter::write('mail.mailers.smtp.transport',$data['mailer']);
+        $newVals = [
+            'MAIL_USERNAME' => $data['smtp_username'],
+            'MAIL_PASSWORD' => $data['smtp_password'],
+            'MAIL_FROM_ADDRESS' =>  $data['from_email'],
+            'MAIL_FROM_NAME' => $data['from_name'],
+            'MAIL_HOST' =>  $data['smtp_host'],
+            'MAIL_PORT' => $data['smtp_port'],
+            'MAIL_ENCRYPTION' => $data['encryption'],
+            'MAIL_MAILER' => $data['mailer'],
+        ];
 
-        // ConfigWriter::write('mail.mailers.smtp.host',$data['smtp_host']);
-        ConfigWriter::edit('mail')->merge('mailers.smtp', [
-            'host' => $data['smtp_host']
-        ])->save();
+        $this->dotEnvService->writeToEnv($newVals);
 
-        ConfigWriter::write('mail.mailers.smtp.port',$data['smtp_port']);
-        ConfigWriter::write('mail.mailers.smtp.encryption',$data['encryption']);
+        // $envString = file_get_contents(base_path('.env'));
+
+        // $lines = explode("\n", $envString);
+        // foreach ($lines as $line) {
+        //     try {
+        //         $envVals = parse_ini_string($line);
+        //     } catch (\Throwable $th) {
+        //         $envVals = null;
+        //     }
+        //     if ($envVals) {
+        //         foreach ($envVals as $key => $value) {
+        //             if (array_key_exists($key, $newVals)) {
+        //                 $envString = str_replace($key . '=' . $value, $key . '=' . $newVals[$key], $envString);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // $envFile = fopen(base_path('.env.local'), 'w');
+
+        // fwrite($envFile, $envString . PHP_EOL);
+        // fclose($envFile);
+
         
-        ConfigWriter::write('mail.mailers.smtp.username',$data['smtp_username']);
-        ConfigWriter::write('mail.mailers.smtp.password',$data['smtp_password']);
-
-        // From email and name replace
-        ConfigWriter::edit('mail')->replace('from',
-            [
-                'address' => $data['from_email'],
-                'name' => $data['from_name']
-            ]
-        )->save();
     }
 }

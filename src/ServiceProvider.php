@@ -7,9 +7,14 @@ use Statamic\Facades\CP\Nav;
 use Illuminate\Support\Facades\Event;
 use AcquaintSofttech\StataMailer\Events\StataMailConfiguration;
 use AcquaintSofttech\StataMailer\Listeners\MailerConfiguration;
+use AcquaintSofttech\StataMailer\Services\DotEnvService;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    public $singletons = [
+        DotEnvService::class => DotEnvService::class,
+    ];
+
     // Register CP Routes
     protected $routes = [
         'cp' => __DIR__.'/../routes/cp.php',
