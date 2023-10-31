@@ -33,7 +33,7 @@ class DotEnvService {
             }
         }
 
-        $envFile = fopen(base_path('.env.local'), 'w');
+        $envFile = fopen(base_path('.env'), 'w');
 
         fwrite($envFile, $envString . PHP_EOL);
         fclose($envFile);
