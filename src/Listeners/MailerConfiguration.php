@@ -45,30 +45,6 @@ class MailerConfiguration
         ];
 
         $this->dotEnvService->writeToEnv($newVals);
-
-        // $envString = file_get_contents(base_path('.env'));
-
-        // $lines = explode("\n", $envString);
-        // foreach ($lines as $line) {
-        //     try {
-        //         $envVals = parse_ini_string($line);
-        //     } catch (\Throwable $th) {
-        //         $envVals = null;
-        //     }
-        //     if ($envVals) {
-        //         foreach ($envVals as $key => $value) {
-        //             if (array_key_exists($key, $newVals)) {
-        //                 $envString = str_replace($key . '=' . $value, $key . '=' . $newVals[$key], $envString);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // $envFile = fopen(base_path('.env.local'), 'w');
-
-        // fwrite($envFile, $envString . PHP_EOL);
-        // fclose($envFile);
-
-        
+       
     }
 }

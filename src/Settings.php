@@ -2,10 +2,9 @@
 
 namespace AcquaintSofttech\StataMailer;
 
+use AcquaintSofttech\StataMailer\Services\DotEnvService;
 use Illuminate\Support\Collection;
 use Statamic\Facades\Blueprint;
-use Statamic\Facades\File;
-use Statamic\Facades\YAML;
 
 class Settings extends Collection
 {
@@ -37,20 +36,22 @@ class Settings extends Collection
             ->all();
     }
 
-    public function save()
-    {
-        File::put($this->path(), YAML::dump($this->items));
-    }
-
     protected function getDefaults()
     {
-        return collect(YAML::file($this->path())->parse())
-            ->all();
-    }
-
-    protected function path()
-    {
-        return base_path('content/mail-stmp-settings.yaml');
+        $dotEnvService = app(DotEnvService::class);
+        $env = $dotEnvService->readFromEnv();
+        $data = [
+            'from_email' => $env['MAIL_FROM_ADDRESS'] ?? '',
+            'from_name' => $env['MAIL_FROM_NAME'] ?? '',
+            'mailer' => $env['MAIL_MAILER'] ?? '',
+            'encryption' => $env['MAIL_ENCRYPTION'] ?? '',
+            'smtp_host' => $env['MAIL_HOST'] ?? '',
+            'smtp_port' => $env['MAIL_PORT'] ?? '',
+            'smtp_username' => $env['MAIL_USERNAME'] ?? '',
+            'smtp_password' => $env['MAIL_PASSWORD'] ?? '',
+        ];
+        
+        return $data;
     }
 
     public static function blueprint()

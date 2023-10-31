@@ -41,7 +41,7 @@ class SettingsController extends CpController
 
         $this->saveSmtpConfig($values);
 
-        Settings::load($values)->save();
+        // Settings::load($values)->save();
 
     }
 
