@@ -1,25 +1,25 @@
 {
-    "name": "acquaint-softtech/stata-mailer",
-    "description": "Stata mailer is a Statamic add-on that simplifies Laravel’s Mail configuration with Statamic without prior coding knowledge. Just install it and let it handle the rest.",
-    "license": "proprietary",
-    "version": "0.0.4",
-    "autoload": {
-        "psr-4": {
-            "AcquaintSofttech\\StataMailer\\": "src"
-        }
-    },
-    "extra": {
-        "statamic": {
-            "name": "Stata Mailer",
-            "description": "Stata Mailer addon"
-        },
-        "laravel": {
-            "providers": [
-                "AcquaintSofttech\\StataMailer\\ServiceProvider"
-            ]
-        }
-    },
-    "require": {
-        "stillat/proteus": "^2.0"
+  "name": "acquaint-softtech/stata-mailer",
+  "description": "Stata mailer is a Statamic add-on that simplifies Laravel’s Mail configuration with Statamic without prior coding knowledge. Just install it and let it handle the rest.",
+  "license": "proprietary",
+  "version": "0.0.5",
+  "autoload": {
+    "psr-4": {
+      "AcquaintSofttech\\StataMailer\\": "src"
     }
+  },
+  "extra": {
+    "statamic": {
+      "name": "Stata Mailer",
+      "description": "Stata Mailer addon"
+    },
+    "laravel": {
+      "providers": [
+        "AcquaintSofttech\\StataMailer\\ServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "stillat/proteus": "^4.0"
+  }
 }
